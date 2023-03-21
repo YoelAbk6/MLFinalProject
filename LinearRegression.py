@@ -16,4 +16,4 @@ class linear_regression:
         # Make predictions on test data
         y_pred = reg.predict(X_train)
 
-        print('MSE:', mean_squared_error(y_train, y_pred))
+        print('MSE linear_regression:', mean_squared_error(y_train, y_pred))
