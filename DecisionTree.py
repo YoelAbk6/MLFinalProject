@@ -1,7 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn import metrics
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 class desicion_tree:
 
@@ -20,7 +19,5 @@ class desicion_tree:
 
         print("Decision Tree")
 
-        confusion_matrix = metrics.confusion_matrix(y_test, y_pred)
-        print("confusion matrix:")
-        print(confusion_matrix)
+        print(confusion_matrix(y_test, y_pred))
         print(classification_report(y_test, y_pred))
