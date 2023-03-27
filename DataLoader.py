@@ -4,16 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 """
-Feature logical ranges - valus out of this range are *definitely* corrupted :
+Feature logical ranges - values out of this range are *definitely* corrupted :
 
-0 <= Pregnancies 
+(In general, need to clean all the missing values, meaning 0 values. we decided to set them to the mean and not delete all the row)
+
+0 < Pregnancies 
 0 < Glucose (We can maybe dig to a deeper resolution)
 40 <= Blood Pressure (Disatolic) <=120
 0 < Skin Thickness
 0 < Insulin
 10 < BMI < 42
 0 < Age
-Diabetes Pedigree Function ??
+Diabetes Pedigree Function(measure of the diabetes mellitus history in relatives and the genetic relationship of those relatives to the patient)
 """
 
 
@@ -63,7 +65,7 @@ class DataLoader:
 
     def __replace_OOR_by_mean(self):
         """
-        Replace values that are Our Of Range by the mean
+        Replace values that are Out Of Range by the mean
         """
         print("Number of BMI <= 10 or BMI >= 42:", (
             self.df_BMI[~self.df_BMI.between(10, 42)]).shape[0])
@@ -79,6 +81,11 @@ class DataLoader:
         """
         Replace zero values by the mean
         """
+        print("Number of Pregnancies = 0:", (
+            self.df_Pregnancies[self.df_Pregnancies == 0]).shape[0])
+        self.df_Pregnancies = self.df_Pregnancies.apply(
+            lambda x: self.df_Pregnancies.mean() if x == 0 else x)
+
         print("Number of Glucose = 0:", (
             self.df_Glucose[self.df_Glucose == 0]).shape[0])
         self.df_Glucose = self.df_Glucose.apply(
