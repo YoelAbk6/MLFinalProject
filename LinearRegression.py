@@ -11,9 +11,9 @@ class linear_regression:
         reg = LinearRegression()
 
         # Fit the model using training data
-        reg.fit(X_test, y_test)
+        reg.fit(X_train, y_train)
 
         # Make predictions on test data
-        y_pred = reg.predict(X_train)
+        y_pred = reg.predict(X_test)
 
-        print('MSE linear_regression:', mean_squared_error(y_train, y_pred))
+        print('MSE linear_regression:', mean_squared_error(y_test, y_pred))
