@@ -33,6 +33,17 @@ class DataLoader:
         self.df_Outcome = self.df["Outcome"]
 
     def get_data(self):
+        cols_to_replace = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
+        self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
+        self.df.dropna(thresh=6, inplace=True)  # drop rows that contain 4 or more NaN values
+        self.df['BMI'] = self.df['BMI'].apply(lambda x: np.NaN if (x >= 42 or x <= 10) else x)
+
+        col_means = self.df.mean()  # Compute column-wise mean
+        self.df.fillna(value=col_means, inplace=True)  # Replace NaN values with column-wise means
+
+        # pd.set_option('display.max_rows', None)
+        # pd.set_option('display.max_columns', None)
+        # print(self.df)
         return self.df[self.df.columns[:8]].values.copy(), self.df[self.df.columns[-1]].values.copy()
 
     def visualize_features_density(self):
@@ -67,13 +78,11 @@ class DataLoader:
         """
         Replace values that are Out Of Range by the mean
         """
-        print("Number of BMI <= 10 or BMI >= 42:", (
-            self.df_BMI[~self.df_BMI.between(10, 42)]).shape[0])
-        self.df_BMI = self.df_BMI.apply(
-            lambda x: self.df_BMI.mean() if (x >= 42 or x <= 10) else x)
+        # print("Number of BMI <= 10 or BMI >= 42:", (self.df_BMI[~self.df_BMI.between(10, 42)]).shape[0])
+        self.df_BMI = self.df_BMI.apply(lambda x: self.df_BMI.mean() if (x >= 42 or x <= 10) else x)
 
-        print("Number of Blood Pressure <= 40 or Blood Pressure >= 120:", (
-            self.df_BloodPressure[~self.df_BloodPressure.between(40, 120)]).shape[0])
+        # print("Number of Blood Pressure <= 40 or Blood Pressure >= 120:", (
+        #     self.df_BloodPressure[~self.df_BloodPressure.between(40, 120)]).shape[0])
         self.df_BloodPressure = self.df_BloodPressure.apply(
             lambda x: self.df_BloodPressure.mean() if (x >= 120 or x <= 40) else x)
 
