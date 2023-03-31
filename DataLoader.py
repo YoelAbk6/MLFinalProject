@@ -6,9 +6,7 @@ import seaborn as sns
 """
 Feature logical ranges - values out of this range are *definitely* corrupted :
 
-(In general, need to clean all the missing values, meaning 0 values. we decided to set them to the mean and not delete all the row)
-
-0 < Pregnancies 
+ 
 0 < Glucose (We can maybe dig to a deeper resolution)
 40 <= Blood Pressure (Disatolic) <=120
 0 < Skin Thickness
