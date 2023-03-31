@@ -29,19 +29,17 @@ class DataLoader:
         self.df_DiabetesPedigreeFunction = self.df["DiabetesPedigreeFunction"]
         self.df_Age = self.df["Age"]
         self.df_Outcome = self.df["Outcome"]
+        self.averages = {}
 
     def get_data(self):
         cols_to_replace = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
         self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
         self.df.dropna(thresh=6, inplace=True)  # drop rows that contain 4 or more NaN values
         self.df['BMI'] = self.df['BMI'].apply(lambda x: np.NaN if (x >= 42 or x <= 10) else x)
+        # save all the averages for further use
+        self.averages = self.df.mean()
+        self.df.fillna(value=self.averages, inplace=True)  # Replace NaN values with column averages
 
-        col_means = self.df.mean()  # Compute column-wise mean
-        self.df.fillna(value=col_means, inplace=True)  # Replace NaN values with column-wise means
-
-        # pd.set_option('display.max_rows', None)
-        # pd.set_option('display.max_columns', None)
-        # print(self.df)
         return self.df[self.df.columns[:8]].values.copy(), self.df[self.df.columns[-1]].values.copy()
 
     def visualize_features_density(self):
@@ -69,7 +67,6 @@ class DataLoader:
         return "clear_data"
 
     def clean_data(self):
-        self.__replace_zeros_by_mean()
         self.__replace_OOR_by_mean()
 
     def __replace_OOR_by_mean(self):
@@ -84,36 +81,3 @@ class DataLoader:
         self.df_BloodPressure = self.df_BloodPressure.apply(
             lambda x: self.df_BloodPressure.mean() if (x >= 120 or x <= 40) else x)
 
-    def __replace_zeros_by_mean(self):
-        """
-        Replace zero values by the mean
-        """
-        print("Number of Pregnancies = 0:", (
-            self.df_Pregnancies[self.df_Pregnancies == 0]).shape[0])
-        self.df_Pregnancies = self.df_Pregnancies.apply(
-            lambda x: self.df_Pregnancies.mean() if x == 0 else x)
-
-        print("Number of Glucose = 0:", (
-            self.df_Glucose[self.df_Glucose == 0]).shape[0])
-        self.df_Glucose = self.df_Glucose.apply(
-            lambda x: self.df_Glucose.mean() if x == 0 else x)
-
-        print("Number of Insulin = 0:", (
-            self.df_Insulin[self.df_Insulin == 0]).shape[0])
-        self.df_Insulin = self.df_Insulin.apply(
-            lambda x: self.df_Insulin.mean() if x == 0 else x)
-
-        print("Number of BMI = 0:", (
-            self.df_BMI[self.df_BMI == 0]).shape[0])
-        self.df_BMI = self.df_BMI.apply(
-            lambda x: self.df_BMI.mean() if x == 0 else x)
-
-        print("Number of Blood Pressure = 0:", (
-            self.df_BloodPressure[self.df_BloodPressure == 0]).shape[0])
-        self.df_BloodPressure = self.df_BloodPressure.apply(
-            lambda x: self.df_BloodPressure.mean() if x == 0 else x)
-
-        print("Number of Skin Thickness = 0:", (
-            self.df_SkinThickness[self.df_SkinThickness == 0]).shape[0])
-        self.df_SkinThickness = self.df_SkinThickness.apply(
-            lambda x: self.df_SkinThickness.mean() if x == 0 else x)
