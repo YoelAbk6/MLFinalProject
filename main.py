@@ -12,10 +12,10 @@ import numpy as np
 if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
     X, y = data.get_data()
-    linear_regression(X, y)
-    logistic_regression(X, y)
-    polynominal_regression(X, y)
-    desicion_tree(X, y)
-    random_forest(X, y)
-    neural_network(X, y)
+    # linear_regression(X, y)
+    # logistic_regression(X, y)
+    # polynominal_regression(X, y)
+    # desicion_tree(X, y)
+    # random_forest(X, y)
+    # neural_network(X, y)
     pass

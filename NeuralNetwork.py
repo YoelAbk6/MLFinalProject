@@ -1,15 +1,16 @@
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
-
+from sklearn.utils import check_random_state
 
 class neural_network:
     def __init__(self, X, y) -> None:
+        rs = check_random_state(42)
         # Assume data is stored in X (8 features) and y (2 classes)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=rs)
 
         # create an MLPClassifier with 1 hidden layer with 10 neurons
-        nn = MLPClassifier(hidden_layer_sizes=(10,), max_iter=1000)
+        nn = MLPClassifier(hidden_layer_sizes=(10,), max_iter=1000, random_state=rs)
 
         # fit the model to the training data
         nn.fit(X_train, y_train)
