@@ -35,7 +35,18 @@ class DataLoader:
         cols_to_replace = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
         self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
         self.df.dropna(thresh=6, inplace=True)  # drop rows that contain 4 or more NaN values
+
+        # replace all the values that above the 99 percent line and down 1 percent line with NaN
+        for col in cols_to_replace:
+            col_values = self.df[col].values
+            lower_bound = np.percentile(col_values, 5)
+            upper_bound = np.percentile(col_values, 95)
+            self.df[col] = np.where((col_values < lower_bound) | (col_values > upper_bound), np.nan, col_values)
+
+        # clean specific data
         self.df['BMI'] = self.df['BMI'].apply(lambda x: np.NaN if (x >= 42 or x <= 10) else x)
+        self.df['BloodPressure'] = self.df['BloodPressure'].apply(lambda x: np.NaN if (x >= 120 or x <= 40) else x)
+
         # save all the averages for further use
         self.averages = self.df.mean()
         self.df.fillna(value=self.averages, inplace=True)  # Replace NaN values with column averages
@@ -80,4 +91,3 @@ class DataLoader:
         #     self.df_BloodPressure[~self.df_BloodPressure.between(40, 120)]).shape[0])
         self.df_BloodPressure = self.df_BloodPressure.apply(
             lambda x: self.df_BloodPressure.mean() if (x >= 120 or x <= 40) else x)
-
