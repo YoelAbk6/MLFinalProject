@@ -13,7 +13,7 @@ if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
     X, y = data.get_data()
     # linear_regression(X, y)
-    # logistic_regression(X, y)
+    logistic_regression(X, y)
     # polynominal_regression(X, y)
     # desicion_tree(X, y)
     # random_forest(X, y)

@@ -36,7 +36,7 @@ class DataLoader:
         self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
         self.df.dropna(thresh=6, inplace=True)  # drop rows that contain 4 or more NaN values
 
-        # replace all the values that above the 99 percent line and down 1 percent line with NaN
+        # replace all the values that above the 95 percent line and down 5 percent line with NaN
         for col in cols_to_replace:
             col_values = self.df[col].values
             lower_bound = np.percentile(col_values, 5)
