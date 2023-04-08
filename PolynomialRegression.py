@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn.utils import check_random_state
 from utils import save_confusion_matrix
+import numpy as np
 
 
 class polynominal_regression:
@@ -21,5 +22,5 @@ class polynominal_regression:
         y_pred = poly_reg_model.predict(X_test_poly)
 
         print('MSE polynomial_regression:', mean_squared_error(y_test, y_pred))
-        # save_confusion_matrix(
-        #     y_test, y_pred, [0, 1], "out/PolynominalRegression/confusion_matrix.png")
+        save_confusion_matrix(
+            y_test, np.round(y_pred).astype(int), [0, 1], "out/PolynominalRegression/confusion_matrix.png")

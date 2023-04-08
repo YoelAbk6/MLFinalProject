@@ -13,7 +13,7 @@ if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
     X, y = data.get_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
-    # linear_regression( X_train, X_test, y_train, y_test, rs)
+    linear_regression(X_train, X_test, y_train, y_test, rs)
     logistic_regression(X_train, X_test, y_train, y_test, rs)
     polynominal_regression(X_train, X_test, y_train, y_test, rs)
     desicion_tree(X_train, X_test, y_train, y_test, rs)
