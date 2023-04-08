@@ -116,10 +116,12 @@ class DataLoader:
 
         """
         - Synthetic Minority Over-sampling Technique
-        - Can be used to deal with the outcome imbalance (70(Negative)/30(Positive))
+        - Can be used to deal with the outcome imbalance (65(Negative)/35(Positive))
         - Did't result better accuraccy overall, does improve the prediction of positives
+        - Sampling_strategy is the new ratio between the minority and the majority
+        - In our DS, after the cleaning, the minority ratio is 0.53
         """
-        sm = SMOTE(random_state=rs)
+        sm = SMOTE(sampling_strategy=0.8, random_state=rs)
         X_train_balanced, y_train_balanced = sm.fit_resample(
             X_train_norm, y_train)
         return X_train_balanced, X_test_norm, y_train_balanced, y_test, rs
