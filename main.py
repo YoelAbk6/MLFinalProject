@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # linear_regression(X, y)
     logistic_regression(X, y)
     # polynominal_regression(X, y)
-    # desicion_tree(X, y)
-    # random_forest(X, y)
-    # neural_network(X, y)
+    desicion_tree(X, y)
+    random_forest(X, y)
+    neural_network(X, y)
     pass
