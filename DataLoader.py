@@ -5,6 +5,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import check_random_state
+from imblearn.over_sampling import SMOTE
 
 """
 Feature logical ranges - values out of this range are *definitely* corrupted :
@@ -14,7 +15,7 @@ Feature logical ranges - values out of this range are *definitely* corrupted :
 40 <= Blood Pressure (Disatolic) <=120
 0 < Skin Thickness
 0 < Insulin
-10 < BMI < 42
+10 < BMI < 40
 0 < Age
 Diabetes Pedigree Function(measure of the diabetes mellitus history in relatives and the genetic relationship of those relatives to the patient)
 """
@@ -41,17 +42,17 @@ class DataLoader:
         # drop rows that contain 4 or more NaN values
         self.df.dropna(thresh=6, inplace=True)
 
-        # replace all the values that above the 95 percent line and down 5 percent line with NaN
-        for col in cols_to_replace:
-            col_values = self.df[col].values
-            lower_bound = np.percentile(col_values, 5)
-            upper_bound = np.percentile(col_values, 95)
-            self.df[col] = np.where((col_values < lower_bound) | (
-                col_values > upper_bound), np.nan, col_values)
+        # # replace all the values that above the 95 percent line and down 5 percent line with NaN
+        # for col in cols_to_replace:
+        #     col_values = self.df[col].values
+        #     lower_bound = np.percentile(col_values, 5)
+        #     upper_bound = np.percentile(col_values, 95)
+        #     self.df[col] = np.where((col_values < lower_bound) | (
+        #         col_values > upper_bound), np.nan, col_values)
 
         # clean specific data
         self.df['BMI'] = self.df['BMI'].apply(
-            lambda x: np.NaN if (x >= 42 or x <= 10) else x)
+            lambda x: np.NaN if (x > 40 or x <= 10) else x)
         self.df['BloodPressure'] = self.df['BloodPressure'].apply(
             lambda x: np.NaN if (x >= 120 or x <= 40) else x)
 
@@ -111,4 +112,14 @@ class DataLoader:
         X_train_norm = scaler.transform(X_train)
         X_test_norm = scaler.transform(X_test)
 
-        return X_train_norm, X_test_norm, y_train, y_test, rs
+        # return X_train_norm, X_test_norm, y_train, y_test, rs
+
+        """
+        - Synthetic Minority Over-sampling Technique
+        - Can be used to deal with the outcome imbalance (70(Negative)/30(Positive))
+        - Did't result better accuraccy overall, does improve the prediction of positives
+        """
+        sm = SMOTE(random_state=rs)
+        X_train_balanced, y_train_balanced = sm.fit_resample(
+            X_train_norm, y_train)
+        return X_train_balanced, X_test_norm, y_train_balanced, y_test, rs
