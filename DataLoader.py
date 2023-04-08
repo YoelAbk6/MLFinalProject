@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.utils import check_random_state
 
 """
 Feature logical ranges - values out of this range are *definitely* corrupted :
@@ -32,24 +35,30 @@ class DataLoader:
         self.averages = {}
 
     def get_data(self):
-        cols_to_replace = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
+        cols_to_replace = ['Glucose', 'BloodPressure',
+                           'SkinThickness', 'Insulin', 'BMI']
         self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
-        self.df.dropna(thresh=6, inplace=True)  # drop rows that contain 4 or more NaN values
+        # drop rows that contain 4 or more NaN values
+        self.df.dropna(thresh=6, inplace=True)
 
         # replace all the values that above the 95 percent line and down 5 percent line with NaN
         for col in cols_to_replace:
             col_values = self.df[col].values
             lower_bound = np.percentile(col_values, 5)
             upper_bound = np.percentile(col_values, 95)
-            self.df[col] = np.where((col_values < lower_bound) | (col_values > upper_bound), np.nan, col_values)
+            self.df[col] = np.where((col_values < lower_bound) | (
+                col_values > upper_bound), np.nan, col_values)
 
         # clean specific data
-        self.df['BMI'] = self.df['BMI'].apply(lambda x: np.NaN if (x >= 42 or x <= 10) else x)
-        self.df['BloodPressure'] = self.df['BloodPressure'].apply(lambda x: np.NaN if (x >= 120 or x <= 40) else x)
+        self.df['BMI'] = self.df['BMI'].apply(
+            lambda x: np.NaN if (x >= 42 or x <= 10) else x)
+        self.df['BloodPressure'] = self.df['BloodPressure'].apply(
+            lambda x: np.NaN if (x >= 120 or x <= 40) else x)
 
         # save all the averages for further use
         self.averages = self.df.mean()
-        self.df.fillna(value=self.averages, inplace=True)  # Replace NaN values with column averages
+        # Replace NaN values with column averages
+        self.df.fillna(value=self.averages, inplace=True)
 
         return self.df[self.df.columns[:8]].values.copy(), self.df[self.df.columns[-1]].values.copy()
 
@@ -85,9 +94,21 @@ class DataLoader:
         Replace values that are Out Of Range by the mean
         """
         # print("Number of BMI <= 10 or BMI >= 42:", (self.df_BMI[~self.df_BMI.between(10, 42)]).shape[0])
-        self.df_BMI = self.df_BMI.apply(lambda x: self.df_BMI.mean() if (x >= 42 or x <= 10) else x)
+        self.df_BMI = self.df_BMI.apply(
+            lambda x: self.df_BMI.mean() if (x >= 42 or x <= 10) else x)
 
         # print("Number of Blood Pressure <= 40 or Blood Pressure >= 120:", (
         #     self.df_BloodPressure[~self.df_BloodPressure.between(40, 120)]).shape[0])
         self.df_BloodPressure = self.df_BloodPressure.apply(
             lambda x: self.df_BloodPressure.mean() if (x >= 120 or x <= 40) else x)
+
+    def get_train_test_norm(self, X, y):
+        rs = check_random_state(42)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, random_state=rs)
+        scaler = StandardScaler()
+        scaler.fit(X_train)
+        X_train_norm = scaler.transform(X_train)
+        X_test_norm = scaler.transform(X_test)
+
+        return X_train_norm, X_test_norm, y_train, y_test, rs

@@ -7,25 +7,19 @@ from utils import save_confusion_matrix
 
 
 class polynominal_regression:
-    def __init__(self, X, y) -> None:
-        rs = check_random_state(42)
+    def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
+
         poly = PolynomialFeatures(degree=2, include_bias=False)
-
-        poly_features = poly.fit_transform(X)
-
-        # Assume data is stored in X (8 features) and y (2 classes)
-        X_train, X_test, y_train, y_test = train_test_split(
-            poly_features, y, test_size=0.2, random_state=rs)
-
-        # Create linear regression object
-        poly_reg_model = LinearRegression()
+        X_train_poly = poly.fit_transform(X_train)
+        X_test_poly = poly.transform(X_test)
 
         # Fit the model using training data
-        poly_reg_model.fit(X_train, y_train)
+        poly_reg_model = LinearRegression()
+        poly_reg_model.fit(X_train_poly, y_train)
 
         # Make predictions on test data
-        y_pred = poly_reg_model.predict(X_test)
+        y_pred = poly_reg_model.predict(X_test_poly)
 
         print('MSE polynomial_regression:', mean_squared_error(y_test, y_pred))
-        save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/PolynominalRegression/confusion_matrix.png")
+        # save_confusion_matrix(
+        #     y_test, y_pred, [0, 1], "out/PolynominalRegression/confusion_matrix.png")

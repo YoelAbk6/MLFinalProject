@@ -6,11 +6,7 @@ from utils import save_confusion_matrix
 
 
 class neural_network:
-    def __init__(self, X, y) -> None:
-        rs = check_random_state(42)
-        # Assume data is stored in X (8 features) and y (2 classes)
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=rs)
+    def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
 
         # create an MLPClassifier with 1 hidden layer with 10 neurons
         nn = MLPClassifier(hidden_layer_sizes=(
