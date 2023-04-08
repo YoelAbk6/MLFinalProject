@@ -11,7 +11,7 @@ class neural_network:
 
         # create an MLPClassifier with 1 hidden layer with 10 neurons
         nn = MLPClassifier(hidden_layer_sizes=(
-            10,), max_iter=1000, early_stopping=True, n_iter_no_change=50, random_state=rs)
+            10,), max_iter=1000, early_stopping=True, n_iter_no_change=800, random_state=rs)
 
         # fit the model to the training data
         nn.fit(X_train, y_train)
