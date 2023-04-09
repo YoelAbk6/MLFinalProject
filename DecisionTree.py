@@ -20,7 +20,6 @@ class desicion_tree:
 
         print("Decision Tree")
 
-        print(confusion_matrix(y_test, y_pred))
+        # print(confusion_matrix(y_test, y_pred))
         print(classification_report(y_test, y_pred))
-        save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/DesicionTree/confusion_matrix.png")
+        save_confusion_matrix(y_test, y_pred, [0, 1], "out/DesicionTree/confusion_matrix.png")

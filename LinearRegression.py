@@ -19,5 +19,4 @@ class linear_regression:
         y_pred = reg.predict(X_test)
 
         print('MSE linear_regression:', mean_squared_error(y_test, y_pred))
-        save_confusion_matrix(
-            y_test, np.round(y_pred).astype(int), [0, 1], "out/LinearRegression/confusion_matrix.png")
+        # save_confusion_matrix(y_test, np.round(y_pred).astype(int), [0, 1], "out/LinearRegression/confusion_matrix.png")

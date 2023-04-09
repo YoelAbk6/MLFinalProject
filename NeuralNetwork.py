@@ -20,12 +20,10 @@ class neural_network:
         y_pred = nn.predict(X_test)
 
         print("Neural Network")
-        print(confusion_matrix(y_test, y_pred))
+        # print(confusion_matrix(y_test, y_pred))
         print(classification_report(y_test, y_pred))
-        save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png")
-        self.save_accuracy_and_loss_graphs(
-            nn.validation_scores_, nn.loss_curve_)
+        save_confusion_matrix(y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png")
+        self.save_accuracy_and_loss_graphs(nn.validation_scores_, nn.loss_curve_)
 
     def save_accuracy_and_loss_graphs(self, accuracy, loss) -> None:
         plt.clf()
