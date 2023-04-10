@@ -22,4 +22,5 @@ class logistic_regression:
 
         # print(confusion_matrix(y_test, y_pred))
         print(classification_report(y_test, y_pred))
-        save_confusion_matrix(y_test, y_pred, [0, 1], "out/LogisticRegression/confusion_matrix.png")
+        save_confusion_matrix(
+            y_test, y_pred, [0, 1], "out/LogisticRegression/confusion_matrix.png")

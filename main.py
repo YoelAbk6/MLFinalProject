@@ -5,8 +5,6 @@ from PolynomialRegression import polynominal_regression
 from RandomForest import random_forest
 from DecisionTree import desicion_tree
 from NeuralNetwork import neural_network
-import pandas as pd
-import numpy as np
 
 
 if __name__ == "__main__":

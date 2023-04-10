@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 
 
 def save_confusion_matrix(y_test, y_pred, labels, filepath):
@@ -80,6 +80,21 @@ def save_corr_matrix(data, path):
     plt.clf()
 
 
+def save_outcome_dist(y):
+    num_ones = sum(y)
+    num_zeros = len(y) - num_ones
+
+    labels = ['Has Diabetes (1)', 'No Diabetes (0)']
+    sizes = [num_ones, num_zeros]
+    colors = ['#FFA07A', '#ADD8E6']
+
+    plt.pie(sizes, labels=labels, colors=colors,
+            autopct='%1.1f%%', startangle=90)
+    plt.axis('equal')
+    plt.title('Outcome Distribution')
+    plt.show()
+
+
 def save_features_density(data, path):
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -105,4 +120,24 @@ def save_features_density(data, path):
                  color='#333533', ax=axs[7], kde_kws=dict(cut=3))
     plt.show()
     # plt.savefig(path, dpi=300, bbox_inches='tight')
+    plt.clf()
+
+
+def save_ROC(y_test, y_prob):
+    # compute ROC curve and AUC score
+    fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+    roc_auc = roc_auc_score(y_test, y_prob)
+
+    # plot ROC curve
+    plt.figure()
+    plt.plot(fpr, tpr, color='darkorange', lw=2,
+             label='ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic')
+    plt.legend(loc="lower right")
+    plt.show()
     plt.clf()
