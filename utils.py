@@ -123,10 +123,16 @@ def save_features_density(data, path):
     plt.clf()
 
 
-def save_ROC(y_test, y_prob):
+def save_ROC(algo_name, path, y_test, y_prob):
     # compute ROC curve and AUC score
     fpr, tpr, thresholds = roc_curve(y_test, y_prob)
     roc_auc = roc_auc_score(y_test, y_prob)
+
+    # Calculate Youden's J statistic for each threshold
+    j_scores = tpr - fpr
+    # Find the threshold that maximizes the Youden's J statistic
+    best_idx = np.argmax(j_scores)
+    best_threshold = thresholds[best_idx]
 
     # plot ROC curve
     plt.figure()
@@ -137,7 +143,9 @@ def save_ROC(y_test, y_prob):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic')
+    plt.title(f'Receiver operating characteristic - {algo_name}')
     plt.legend(loc="lower right")
-    plt.show()
+    plt.savefig(path)
     plt.clf()
+
+    return best_threshold

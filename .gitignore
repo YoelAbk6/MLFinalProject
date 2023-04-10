@@ -1,3 +1,5 @@
 DiabetsPredict.csv
 __pycache__
 out
+*.pptx
+*out*

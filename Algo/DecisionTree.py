@@ -1,11 +1,10 @@
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.utils import check_random_state
-from utils import save_confusion_matrix
+from sklearn.metrics import classification_report
+from utils import save_confusion_matrix, save_ROC
 
 
-class desicion_tree:
+class decision_tree:
 
     def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
 
@@ -18,8 +17,12 @@ class desicion_tree:
         # Make predictions on the testing data
         y_pred = clf.predict(X_test)
 
-        print("Decision Tree")
+        y_prob = clf.predict_proba(X_test)[:, 1]
 
-        # print(confusion_matrix(y_test, y_pred))
-        print(classification_report(y_test, y_pred))
-        save_confusion_matrix(y_test, y_pred, [0, 1], "out/DesicionTree/confusion_matrix.png")
+        best_threshold = save_ROC(
+            "Decision Tree", "out/DecisionTree/ROC.png", y_test, y_prob)
+
+        y_pred = (y_prob >= best_threshold).astype(int)
+
+        save_confusion_matrix(
+            y_test, y_pred, [0, 1], "out/DecisionTree/confusion_matrix.png")

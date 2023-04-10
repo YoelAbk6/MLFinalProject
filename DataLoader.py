@@ -35,20 +35,15 @@ class DataLoader:
         self.df_Outcome = self.df["Outcome"]
         self.averages = {}
 
-    def get_data(self):
+    def get_raw_data(self):
+        return self.df[self.df.columns[:8]].values.copy(), self.df[self.df.columns[-1]].values.copy()
+
+    def get_clean_data(self):
         cols_to_replace = ['Glucose', 'BloodPressure',
                            'SkinThickness', 'Insulin', 'BMI']
         self.df[cols_to_replace] = self.df[cols_to_replace].replace(0, np.NaN)
         # drop rows that contain 4 or more NaN values
         self.df.dropna(thresh=6, inplace=True)
-
-        # # replace all the values that above the 95 percent line and down 5 percent line with NaN
-        # for col in cols_to_replace:
-        #     col_values = self.df[col].values
-        #     lower_bound = np.percentile(col_values, 5)
-        #     upper_bound = np.percentile(col_values, 95)
-        #     self.df[col] = np.where((col_values < lower_bound) | (
-        #         col_values > upper_bound), np.nan, col_values)
 
         # clean specific data
         self.df['BMI'] = self.df['BMI'].apply(
@@ -81,7 +76,7 @@ class DataLoader:
         - Sampling_strategy is the new ratio between the minority and the majority
         - In our DS, after the cleaning, the minority/majority ratio is 0.53/1
         """
-        sm = SMOTE(sampling_strategy=0.8, random_state=rs)
+        sm = SMOTE(random_state=rs)
         X_train_balanced, y_train_balanced = sm.fit_resample(
             X_train_norm, y_train)
         return X_train_balanced, X_test_norm, y_train_balanced, y_test, rs

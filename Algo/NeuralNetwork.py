@@ -1,8 +1,6 @@
-from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.utils import check_random_state
-from utils import save_confusion_matrix
+from sklearn.metrics import classification_report
+from utils import save_confusion_matrix, save_ROC
 import matplotlib.pyplot as plt
 
 
@@ -19,11 +17,17 @@ class neural_network:
         # evaluate the model on the test data
         y_pred = nn.predict(X_test)
 
-        print("Neural Network")
-        # print(confusion_matrix(y_test, y_pred))
-        print(classification_report(y_test, y_pred))
-        save_confusion_matrix(y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png")
-        self.save_accuracy_and_loss_graphs(nn.validation_scores_, nn.loss_curve_)
+        y_prob = nn.predict_proba(X_test)[:, 1]
+
+        best_threshold = save_ROC(
+            'Neural Network', 'out/NeuralNetwork/ROC.png', y_test, y_prob)
+
+        y_pred = (y_prob >= best_threshold).astype(int)
+
+        save_confusion_matrix(
+            y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png")
+        self.save_accuracy_and_loss_graphs(
+            nn.validation_scores_, nn.loss_curve_)
 
     def save_accuracy_and_loss_graphs(self, accuracy, loss) -> None:
         plt.clf()
