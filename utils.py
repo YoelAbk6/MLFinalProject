@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
 
@@ -55,3 +57,52 @@ def save_confusion_matrix(y_test, y_pred, labels, filepath):
     # Save the figure
     fig.tight_layout()
     plt.savefig(filepath)
+    plt.clf()
+
+
+def save_corr_matrix(data, path):
+
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    # Create a correlation matrix
+    corr_matrix = data.df.corr()
+
+    # Create a mask for the lower triangle
+    mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+    # Create a heatmap of the correlation matrix
+    sns.heatmap(corr_matrix, annot=True,
+                cmap='coolwarm', mask=mask, cbar=False)
+
+    plt.show()
+    # Save the heatmap to a file
+    # plt.savefig(path)
+    plt.clf()
+
+
+def save_features_density(data, path):
+
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    fig, axs = plt.subplots(4, 2)
+    fig.subplots_adjust(hspace=0.4, wspace=0.4)
+    axs = axs.flatten()
+    sns.histplot(data.df['Pregnancies'], kde=True,
+                 color='#38b000', ax=axs[0], kde_kws=dict(cut=3))
+    sns.histplot(data.df['Glucose'], kde=True,
+                 color='#FF9933', ax=axs[1], kde_kws=dict(cut=3))
+    sns.histplot(data.df['BloodPressure'], kde=True,
+                 color='#522500', ax=axs[2], kde_kws=dict(cut=3))
+    sns.histplot(data.df['SkinThickness'], kde=True,
+                 color='#66b3ff', ax=axs[3], kde_kws=dict(cut=3))
+    sns.histplot(data.df['Insulin'], kde=True,
+                 color='#FF6699', ax=axs[4], kde_kws=dict(cut=3))
+    sns.histplot(data.df['BMI'], color='#e76f51',
+                 kde=True, ax=axs[5], kde_kws=dict(cut=3))
+    sns.histplot(data.df['DiabetesPedigreeFunction'],
+                 color='#03045e', kde=True, ax=axs[6], kde_kws=dict(cut=3))
+    sns.histplot(data.df['Age'], kde=True,
+                 color='#333533', ax=axs[7], kde_kws=dict(cut=3))
+    plt.show()
+    # plt.savefig(path, dpi=300, bbox_inches='tight')
+    plt.clf()

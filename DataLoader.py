@@ -63,46 +63,6 @@ class DataLoader:
 
         return self.df[self.df.columns[:8]].values.copy(), self.df[self.df.columns[-1]].values.copy()
 
-    def visualize_features_density(self):
-        fig, axs = plt.subplots(4, 2)
-        axs = axs.flatten()
-        sns.histplot(self.df['Pregnancies'], kde=True,
-                     color='#38b000', ax=axs[0], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['Glucose'], kde=True,
-                     color='#FF9933', ax=axs[1], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['BloodPressure'], kde=True,
-                     color='#522500', ax=axs[2], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['SkinThickness'], kde=True,
-                     color='#66b3ff', ax=axs[3], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['Insulin'], kde=True,
-                     color='#FF6699', ax=axs[4], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['BMI'], color='#e76f51',
-                     kde=True, ax=axs[5], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['DiabetesPedigreeFunction'],
-                     color='#03045e', kde=True, ax=axs[6], stat="density", kde_kws=dict(cut=3))
-        sns.histplot(self.df['Age'], kde=True,
-                     color='#333533', ax=axs[7], stat="density", kde_kws=dict(cut=3))
-        plt.show()
-
-    def get_clean_data(self):
-        return "clear_data"
-
-    def clean_data(self):
-        self.__replace_OOR_by_mean()
-
-    def __replace_OOR_by_mean(self):
-        """
-        Replace values that are Out Of Range by the mean
-        """
-        # print("Number of BMI <= 10 or BMI >= 42:", (self.df_BMI[~self.df_BMI.between(10, 42)]).shape[0])
-        self.df_BMI = self.df_BMI.apply(
-            lambda x: self.df_BMI.mean() if (x >= 42 or x <= 10) else x)
-
-        # print("Number of Blood Pressure <= 40 or Blood Pressure >= 120:", (
-        #     self.df_BloodPressure[~self.df_BloodPressure.between(40, 120)]).shape[0])
-        self.df_BloodPressure = self.df_BloodPressure.apply(
-            lambda x: self.df_BloodPressure.mean() if (x >= 120 or x <= 40) else x)
-
     def get_train_test_norm(self, X, y):
         rs = check_random_state(42)
         X_train, X_test, y_train, y_test = train_test_split(
@@ -119,7 +79,7 @@ class DataLoader:
         - Can be used to deal with the outcome imbalance (65(Negative)/35(Positive))
         - Did't result better accuraccy overall, does improve the prediction of positives
         - Sampling_strategy is the new ratio between the minority and the majority
-        - In our DS, after the cleaning, the minority ratio is 0.53
+        - In our DS, after the cleaning, the minority ratio is 0.53 of the majority
         """
         sm = SMOTE(sampling_strategy=0.8, random_state=rs)
         X_train_balanced, y_train_balanced = sm.fit_resample(
