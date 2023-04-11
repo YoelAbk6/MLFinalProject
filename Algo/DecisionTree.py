@@ -25,4 +25,4 @@ class decision_tree:
         y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/DecisionTree/confusion_matrix.png")
+            y_test, y_pred, [0, 1], "out/DecisionTree/confusion_matrix.png", 'Decision Tree')

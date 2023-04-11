@@ -24,4 +24,4 @@ class random_forest:
         y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/RandomForest/confusion_matrix.png")
+            y_test, y_pred, [0, 1], "out/RandomForest/confusion_matrix.png", 'Random Forest')

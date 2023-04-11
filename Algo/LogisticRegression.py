@@ -25,4 +25,4 @@ class logistic_regression:
         y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/LogisticRegression/confusion_matrix.png")
+            y_test, y_pred, [0, 1], "out/LogisticRegression/confusion_matrix.png", "Logistic Regression")

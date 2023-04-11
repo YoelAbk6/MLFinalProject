@@ -1,5 +1,4 @@
 from sklearn.preprocessing import PolynomialFeatures
-from sklearn.metrics import classification_report
 from sklearn.linear_model import LinearRegression
 from utils import save_confusion_matrix, save_ROC
 import numpy as np
@@ -25,4 +24,4 @@ class polynominal_regression:
         y_pred_binary = np.where(y_pred >= best_threshold, 1, 0)
 
         save_confusion_matrix(y_test, np.round(y_pred_binary).astype(
-            int), [0, 1], "out/PolynomialRegression/confusion_matrix.png")
+            int), [0, 1], "out/PolynomialRegression/confusion_matrix.png", 'Polynomial Regression')

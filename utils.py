@@ -6,7 +6,7 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 
 
-def save_confusion_matrix(y_test, y_pred, labels, filepath):
+def save_confusion_matrix(y_test, y_pred, labels, filepath, algo_name):
     """
     Create a confusion matrix from y_test and y_pred, and save it as an image.
 
@@ -34,7 +34,7 @@ def save_confusion_matrix(y_test, y_pred, labels, filepath):
     ax.set(xticks=np.arange(cm.shape[1]),
            yticks=np.arange(cm.shape[0]),
            xticklabels=labels, yticklabels=labels,
-           title='Confusion matrix',
+           title=f'{algo_name} Confusion matrix',
            ylabel='True label',
            xlabel='Predicted label')
 

@@ -25,7 +25,7 @@ class neural_network:
         y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png")
+            y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png", 'Neural Network')
         self.save_accuracy_and_loss_graphs(
             nn.validation_scores_, nn.loss_curve_)
 

@@ -26,4 +26,4 @@ class linear_regression:
         y_pred_binary = np.where(y_pred >= best_threshold, 1, 0)
 
         save_confusion_matrix(y_test, np.round(y_pred_binary).astype(
-            int), [0, 1], "out/LinearRegression/confusion_matrix.png")
+            int), [0, 1], "out/LinearRegression/confusion_matrix.png", 'Linear Regression')
