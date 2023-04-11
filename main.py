@@ -5,12 +5,13 @@ from Algo.PolynomialRegression import polynominal_regression
 from Algo.RandomForest import random_forest
 from Algo.DecisionTree import decision_tree
 from Algo.NeuralNetwork import neural_network
-
+from Algo.PolynomialSVM import PolynomialSVM
 
 if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
     X, y = data.get_clean_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
+    PolynomialSVM(X_train, X_test, y_train, y_test, rs)
     linear_regression(X_train, X_test, y_train, y_test, rs)
     logistic_regression(X_train, X_test, y_train, y_test, rs)
     polynominal_regression(X_train, X_test, y_train, y_test, rs)
