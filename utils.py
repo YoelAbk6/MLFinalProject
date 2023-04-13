@@ -134,6 +134,9 @@ def save_ROC(algo_name, path, y_test, y_prob):
     best_idx = np.argmax(j_scores)
     best_threshold = thresholds[best_idx]
 
+    # Create the necessary directories if they don't exist
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
     # plot ROC curve
     plt.figure()
     plt.plot(fpr, tpr, color='darkorange', lw=2,

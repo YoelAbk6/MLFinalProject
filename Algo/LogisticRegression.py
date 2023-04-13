@@ -6,7 +6,7 @@ from utils import save_confusion_matrix, save_ROC
 
 class logistic_regression:
 
-    def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
 
         # Create logistic regression object
         reg = LogisticRegression(max_iter=200, random_state=rs)
@@ -20,9 +20,10 @@ class logistic_regression:
         y_prob = reg.predict_proba(X_test)[:, 1]
 
         best_threshold = save_ROC("Logistic Regression",
-                                  "out/LogisticRegression/ROC.png", y_test, y_prob)
+                                  f"{out_folder}/LogisticRegression/ROC.png", y_test, y_prob)
 
-        y_pred = (y_prob >= best_threshold).astype(int)
+        if is_best_threshold:
+            y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/LogisticRegression/confusion_matrix.png", "Logistic Regression")
+            y_test, y_pred, [0, 1], f"{out_folder}/LogisticRegression/confusion_matrix.png", "Logistic Regression")

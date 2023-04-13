@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class neural_network:
-    def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
 
         # create an MLPClassifier with 1 hidden layer with 10 neurons
         nn = MLPClassifier(hidden_layer_sizes=(
@@ -20,22 +20,23 @@ class neural_network:
         y_prob = nn.predict_proba(X_test)[:, 1]
 
         best_threshold = save_ROC(
-            'Neural Network', 'out/NeuralNetwork/ROC.png', y_test, y_prob)
+            'Neural Network', f"{out_folder}/NeuralNetwork/ROC.png", y_test, y_prob)
 
-        y_pred = (y_prob >= best_threshold).astype(int)
+        if is_best_threshold:
+            y_pred = (y_prob >= best_threshold).astype(int)
 
         save_confusion_matrix(
-            y_test, y_pred, [0, 1], "out/NeuralNetwork/confusion_matrix.png", 'Neural Network')
+            y_test, y_pred, [0, 1], f"{out_folder}/NeuralNetwork/confusion_matrix.png", 'Neural Network')
         self.save_accuracy_and_loss_graphs(
-            nn.validation_scores_, nn.loss_curve_)
+            nn.validation_scores_, nn.loss_curve_, out_folder)
 
-    def save_accuracy_and_loss_graphs(self, accuracy, loss) -> None:
+    def save_accuracy_and_loss_graphs(self, accuracy, loss, out_folder) -> None:
         plt.clf()
         plt.plot(accuracy)
         plt.title("Accuracy")
-        plt.savefig("out/NeuralNetwork/Accuracy.png")
+        plt.savefig(f"{out_folder}/NeuralNetwork/Accuracy.png")
 
         plt.clf()
         plt.plot(loss)
         plt.title("Loss")
-        plt.savefig("out/NeuralNetwork/Loss.png")
+        plt.savefig(f"{out_folder}/NeuralNetwork/Loss.png")
