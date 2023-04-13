@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 class linear_regression:
-    def __init__(self, X_train, X_test, y_train, y_test, rs) -> None:
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
 
         # Create linear regression object
         reg = LinearRegression()
@@ -21,9 +21,9 @@ class linear_regression:
         y_pred_binary = np.where(y_pred >= threshold, 1, 0)
 
         best_threshold = save_ROC('Linear Regression',
-                                  "out/LinearRegression/ROC.png", y_test, y_pred)
-
-        y_pred_binary = np.where(y_pred >= best_threshold, 1, 0)
+                                  f"{out_folder}/LinearRegression/ROC.png", y_test, y_pred)
+        if is_best_threshold:
+            y_pred_binary = np.where(y_pred >= best_threshold, 1, 0)
 
         save_confusion_matrix(y_test, np.round(y_pred_binary).astype(
-            int), [0, 1], "out/LinearRegression/confusion_matrix.png", 'Linear Regression')
+            int), [0, 1], f"{out_folder}/LinearRegression/confusion_matrix.png", 'Linear Regression')
