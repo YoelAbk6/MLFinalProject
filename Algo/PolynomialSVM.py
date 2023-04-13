@@ -1,6 +1,6 @@
 from sklearn.svm import SVC
 from sklearn.preprocessing import PolynomialFeatures
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 import numpy as np
 
 
@@ -25,3 +25,5 @@ class PolynomialSVM:
 
         save_confusion_matrix(y_test, np.round(y_pred).astype(
             int), [0, 1], f"{out_folder}/PolynomialSVM/confusion_matrix.png", 'SVM')
+
+        print_percent(y_test, y_pred, "PolynomialSVM")

@@ -1,6 +1,5 @@
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 import matplotlib.pyplot as plt
 
 
@@ -30,6 +29,8 @@ class neural_network:
         self.save_accuracy_and_loss_graphs(
             nn.validation_scores_, nn.loss_curve_, out_folder)
 
+        print_percent(y_test, y_pred, "Neural Network")
+
     def save_accuracy_and_loss_graphs(self, accuracy, loss, out_folder) -> None:
         plt.clf()
         plt.plot(accuracy)
@@ -40,3 +41,6 @@ class neural_network:
         plt.plot(loss)
         plt.title("Loss")
         plt.savefig(f"{out_folder}/NeuralNetwork/Loss.png")
+
+
+

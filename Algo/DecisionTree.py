@@ -1,7 +1,5 @@
-from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import classification_report
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 
 
 class decision_tree:
@@ -27,3 +25,5 @@ class decision_tree:
 
         save_confusion_matrix(
             y_test, y_pred, [0, 1], f"{out_folder}/DecisionTree/confusion_matrix.png", 'Decision Tree')
+
+        print_percent(y_test, y_pred, "Decision Tree")
