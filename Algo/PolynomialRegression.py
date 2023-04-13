@@ -1,11 +1,11 @@
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 import numpy as np
 
-class polynominal_regression:
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
 
+class polynominal_regression:
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         poly = PolynomialFeatures(degree=2, include_bias=False)
         X_train_poly = poly.fit_transform(X_train)
         X_test_poly = poly.transform(X_test)
@@ -17,6 +17,9 @@ class polynominal_regression:
         # Make predictions on test data
         y_pred = poly_reg_model.predict(X_test_poly)
 
+        if not is_best_threshold:
+            y_pred = np.round(y_pred).astype(int)
+
         best_threshold = save_ROC('Polynomial Regression',
                                   f"{out_folder}/PolynomialRegression/ROC.png", y_test, y_pred)
 
@@ -25,3 +28,5 @@ class polynominal_regression:
 
         save_confusion_matrix(y_test, np.round(y_pred).astype(
             int), [0, 1], f"{out_folder}/PolynomialRegression/confusion_matrix.png", 'Polynomial Regression')
+
+        print_percent(y_test, y_pred, "Polynomial Regression")

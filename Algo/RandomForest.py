@@ -1,6 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 
 
 class random_forest:
@@ -26,3 +25,5 @@ class random_forest:
 
         save_confusion_matrix(
             y_test, y_pred, [0, 1], f"{out_folder}/RandomForest/confusion_matrix.png", 'Random Forest')
+
+        print_percent(y_test, y_pred, "Random Forest")
