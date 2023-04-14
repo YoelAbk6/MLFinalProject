@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 

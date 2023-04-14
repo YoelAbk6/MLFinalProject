@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 
 
 class neural_network:
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # create an MLPClassifier with 1 hidden layer with 10 neurons
         nn = MLPClassifier(hidden_layer_sizes=(
             10,), max_iter=1000, early_stopping=True, n_iter_no_change=800, random_state=rs)
@@ -41,6 +40,3 @@ class neural_network:
         plt.plot(loss)
         plt.title("Loss")
         plt.savefig(f"{out_folder}/NeuralNetwork/Loss.png")
-
-
-

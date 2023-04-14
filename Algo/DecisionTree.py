@@ -4,8 +4,7 @@ from utils import save_confusion_matrix, save_ROC, print_percent
 
 class decision_tree:
 
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # Create decision tree classifier object
         clf = DecisionTreeClassifier(random_state=rs)
 
@@ -19,7 +18,7 @@ class decision_tree:
 
         best_threshold = save_ROC(
             "Decision Tree", f"{out_folder}/DecisionTree/ROC.png", y_test, y_prob)
-        
+
         if is_best_threshold:
             y_pred = (y_prob >= best_threshold).astype(int)
 

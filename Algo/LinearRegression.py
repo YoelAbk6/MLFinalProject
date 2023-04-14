@@ -4,8 +4,7 @@ import numpy as np
 
 
 class linear_regression:
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # Create linear regression object
         reg = LinearRegression()
 
