@@ -4,8 +4,7 @@ from utils import save_confusion_matrix, save_ROC, print_percent
 
 class logistic_regression:
 
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # Create logistic regression object
         reg = LogisticRegression(max_iter=200, random_state=rs)
 

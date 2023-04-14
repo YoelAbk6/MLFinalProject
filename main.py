@@ -9,7 +9,8 @@ from Algo.PolynomialSVM import PolynomialSVM
 
 if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
-    models = [PolynomialSVM, linear_regression, logistic_regression, polynominal_regression, decision_tree, random_forest, neural_network]
+    models = [PolynomialSVM, linear_regression, logistic_regression, polynominal_regression, decision_tree,
+              random_forest, neural_network]
 
     # First run, raw data
     print("First run, raw data:")
@@ -17,17 +18,17 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
     for model in models:
         model(X_train, X_test, y_train, y_test, rs, 'raw_out')
-    
+
     # Second run, clean data
     print("\nSecond run, clean data:")
     X, y = data.get_clean_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
     for model in models:
         model(X_train, X_test, y_train, y_test, rs, 'clean_out')
-    
+
     # Third run, clean data and best threshold
     print("\nThird run, clean data and best threshold:")
     X, y = data.get_clean_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
     for model in models:
-        model(X_train, X_test, y_train, y_test, rs, 'best_out', is_best_threshold = True)
+        model(X_train, X_test, y_train, y_test, rs, 'best_out', is_best_threshold=True)

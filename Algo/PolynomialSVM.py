@@ -5,7 +5,7 @@ import numpy as np
 
 
 class PolynomialSVM:
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False):
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False):
         poly = PolynomialFeatures(degree=2, include_bias=False)
         X_train_poly = poly.fit_transform(X_train)
         X_test_poly = poly.transform(X_test)
