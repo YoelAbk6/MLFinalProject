@@ -6,11 +6,12 @@ from Algo.RandomForest import random_forest
 from Algo.DecisionTree import decision_tree
 from Algo.NeuralNetwork import neural_network
 from Algo.PolynomialSVM import PolynomialSVM
+from Algo.XGBoost import XGBoost
 
 if __name__ == "__main__":
     data = DataLoader("DiabetsPredict.csv")
-    models = [PolynomialSVM, linear_regression, logistic_regression, polynominal_regression, decision_tree,
-              random_forest, neural_network]
+    models = [PolynomialSVM, linear_regression, logistic_regression,
+              polynominal_regression, decision_tree, random_forest, neural_network, XGBoost]
 
     # First run, raw data
     print("First run, raw data:")
@@ -31,4 +32,6 @@ if __name__ == "__main__":
     X, y = data.get_clean_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
     for model in models:
-        model(X_train, X_test, y_train, y_test, rs, 'best_out', is_best_threshold=True)
+        model(X_train, X_test, y_train, y_test, rs,
+              'best_out', is_best_threshold=True)
+
