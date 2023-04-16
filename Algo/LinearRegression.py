@@ -1,4 +1,5 @@
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import classification_report
 from utils import save_confusion_matrix, save_ROC, print_percent
 import numpy as np
 
@@ -26,3 +27,6 @@ class linear_regression:
             int), [0, 1], f"{out_folder}/LinearRegression/confusion_matrix.png", 'Linear Regression')
 
         print_percent(y_test, y_pred_binary, "Linear Regression")
+
+        report = classification_report(y_test, y_pred_binary)
+        print(report)

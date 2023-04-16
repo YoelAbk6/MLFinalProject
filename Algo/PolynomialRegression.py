@@ -1,5 +1,6 @@
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import classification_report
 from utils import save_confusion_matrix, save_ROC, print_percent
 import numpy as np
 
@@ -17,16 +18,19 @@ class polynominal_regression:
         # Make predictions on test data
         y_pred = poly_reg_model.predict(X_test_poly)
 
-        if not is_best_threshold:
-            y_pred = np.round(y_pred).astype(int)
+        threshold = 0.5
+        y_pred_binary = np.where(y_pred >= threshold, 1, 0)
 
         best_threshold = save_ROC('Polynomial Regression',
                                   f"{out_folder}/PolynomialRegression/ROC.png", y_test, y_pred)
 
         if is_best_threshold:
-            y_pred = np.where(y_pred >= best_threshold, 1, 0)
+            y_pred_binary = np.where(y_pred >= best_threshold, 1, 0)
 
-        save_confusion_matrix(y_test, np.round(y_pred).astype(
+        save_confusion_matrix(y_test, np.round(y_pred_binary).astype(
             int), [0, 1], f"{out_folder}/PolynomialRegression/confusion_matrix.png", 'Polynomial Regression')
 
-        print_percent(y_test, y_pred, "Polynomial Regression")
+        print_percent(y_test, y_pred_binary, "Polynomial Regression")
+
+        report = classification_report(y_test, y_pred_binary)
+        print(report)

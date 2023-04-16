@@ -1,4 +1,5 @@
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
 from utils import save_confusion_matrix, save_ROC, print_percent
 
 
@@ -26,3 +27,6 @@ class logistic_regression:
             y_test, y_pred, [0, 1], f"{out_folder}/LogisticRegression/confusion_matrix.png", "Logistic Regression")
 
         print_percent(y_test, y_pred, "Logistic Regression")
+
+        report = classification_report(y_test, y_pred)
+        print(report)

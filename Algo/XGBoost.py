@@ -1,5 +1,6 @@
 import numpy as np
 from xgboost import XGBClassifier
+from sklearn.metrics import classification_report
 from utils import save_confusion_matrix, save_ROC, print_percent
 
 
@@ -27,3 +28,6 @@ class XGBoost:
             int), [0, 1], f"{out_folder}/XGBoost/confusion_matrix.png", 'XGBoost')
 
         print_percent(y_test, y_pred, "XGBoost")
+
+        report = classification_report(y_test, y_pred)
+        print(report)
