@@ -32,6 +32,4 @@ if __name__ == "__main__":
     X, y = data.get_clean_data()
     X_train, X_test, y_train, y_test, rs = data.get_train_test_norm(X, y)
     for model in models:
-        model(X_train, X_test, y_train, y_test, rs,
-              'best_out', is_best_threshold=True)
-
+        model(X_train, X_test, y_train, y_test, rs, 'best_out', is_best_threshold=True)

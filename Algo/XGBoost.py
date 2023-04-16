@@ -1,6 +1,6 @@
 import numpy as np
 from xgboost import XGBClassifier
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 
 
 class XGBoost:
@@ -25,3 +25,5 @@ class XGBoost:
 
         save_confusion_matrix(y_test, np.round(y_pred_binary).astype(
             int), [0, 1], f"{out_folder}/XGBoost/confusion_matrix.png", 'XGBoost')
+
+        print_percent(y_test, y_pred, "XGBoost")
