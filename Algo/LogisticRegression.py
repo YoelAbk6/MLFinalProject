@@ -1,13 +1,10 @@
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 
 
 class logistic_regression:
 
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # Create logistic regression object
         reg = LogisticRegression(max_iter=200, random_state=rs)
 
@@ -27,3 +24,5 @@ class logistic_regression:
 
         save_confusion_matrix(
             y_test, y_pred, [0, 1], f"{out_folder}/LogisticRegression/confusion_matrix.png", "Logistic Regression")
+
+        print_percent(y_test, y_pred, "Logistic Regression")

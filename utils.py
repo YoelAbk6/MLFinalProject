@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 
@@ -61,7 +60,6 @@ def save_confusion_matrix(y_test, y_pred, labels, filepath, algo_name):
 
 
 def save_corr_matrix(data, path):
-
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     # Create a correlation matrix
@@ -96,7 +94,6 @@ def save_outcome_dist(y):
 
 
 def save_features_density(data, path):
-
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     fig, axs = plt.subplots(4, 2)
@@ -152,3 +149,13 @@ def save_ROC(algo_name, path, y_test, y_prob):
     plt.clf()
 
     return best_threshold
+
+
+def print_percent(y_test, y_pred, algo):
+    count = 0
+    for i in range(len(y_test)):
+        if y_test[i] == y_pred[i]:
+            count += 1
+
+    print("{}: {:.1f}%".format(algo, (count/len(y_test)) * 100))
+

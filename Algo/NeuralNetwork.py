@@ -1,12 +1,10 @@
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report
-from utils import save_confusion_matrix, save_ROC
+from utils import save_confusion_matrix, save_ROC, print_percent
 import matplotlib.pyplot as plt
 
 
 class neural_network:
-    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold = False) -> None:
-
+    def __init__(self, X_train, X_test, y_train, y_test, rs, out_folder, is_best_threshold=False) -> None:
         # create an MLPClassifier with 1 hidden layer with 10 neurons
         nn = MLPClassifier(hidden_layer_sizes=(
             10,), max_iter=1000, early_stopping=True, n_iter_no_change=800, random_state=rs)
@@ -29,6 +27,8 @@ class neural_network:
             y_test, y_pred, [0, 1], f"{out_folder}/NeuralNetwork/confusion_matrix.png", 'Neural Network')
         self.save_accuracy_and_loss_graphs(
             nn.validation_scores_, nn.loss_curve_, out_folder)
+
+        print_percent(y_test, y_pred, "Neural Network")
 
     def save_accuracy_and_loss_graphs(self, accuracy, loss, out_folder) -> None:
         plt.clf()
